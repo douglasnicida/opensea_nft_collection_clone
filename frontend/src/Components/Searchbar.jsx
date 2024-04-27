@@ -1,7 +1,8 @@
 import { VscSearch } from "react-icons/vsc";
 
-const Searchbar = ({data,setData}) => {
+const Searchbar = ({data,setData,readonly}) => {
     const handleSearch = (e) => {
+        if(readonly) return;
         if (e.target.value === "") return setData(data)
 
         const filteredData = data.filter(nft => nft.name.includes(e.target.value))

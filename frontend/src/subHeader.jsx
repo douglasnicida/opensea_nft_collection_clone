@@ -41,7 +41,7 @@ const SubHeader = () => {
 
             </div>
 
-            <div className="flex flex-col w-full bg-black h-[77px] text-white p-6 text-[17px]">
+            <div className="flex flex-col w-full bg-black h-[200px] lg:h-[130px] text-white p-6 text-[17px]">
                 <div className={`flex ${(!detailsClick) ? "flex-col lg:flex-row gap-x-4 px-3 lg:px-0" : "flex-col"}`}>
                     <p className={`${(!detailsClick) && "truncate"} w-auto lg:w-[565px] h-full text-justify`}>{data.description}</p>
                     

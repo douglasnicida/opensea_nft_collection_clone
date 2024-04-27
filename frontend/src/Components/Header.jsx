@@ -219,7 +219,7 @@ const Header = ({scroll}) => {
             </div>
 
             {/* Search Bar / Search Icon */}
-            <Searchbar />
+            <Searchbar readonly={true} />
 
             {/* RIGHT */}
             <div className="flex items-center w-full">
