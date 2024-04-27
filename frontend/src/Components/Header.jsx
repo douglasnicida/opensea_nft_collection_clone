@@ -5,9 +5,12 @@ import {ReactComponent as Logo} from '../assets/OpenSea-Full-Logo(light).svg'
 import { MdOutlineWallet, MdOutlineShoppingCart, MdOutlineSettings, MdOutlineMenu, MdClose } from "react-icons/md";
 import { FaRegCircleUser, FaRegUser } from "react-icons/fa6";
 
+import detectEthereumProvider from "@metamask/detect-provider";
+
 import Button from './Button';
 import { formatBalance } from '../utils/CurrencyFormat';
 import Searchbar from './Searchbar';
+
 
 // OTHER ITEMS
 const DropdownItemsName = [
@@ -115,7 +118,7 @@ const Header = ({scroll}) => {
 
     const initialState = {accounts: [], balance: "", chainId: ""};
     const [wallet, setWallet] = useState(initialState)
-    const [hasProvider, setHasProvider] = useState(false)
+    const [hasProvider, setHasProvider] = useState(null)
 
     const [isConnecting, setIsConnecting] = useState(false)
 
@@ -131,8 +134,10 @@ const Header = ({scroll}) => {
             if (typeof window.ethereum !== "undefined") {
                 setHasProvider(true)
             }
+            const provider = await detectEthereumProvider({ silent: true });
+            setHasProvider(Boolean(provider));
 
-            if (hasProvider) {                                    
+            if (provider) {                                    
                 const accounts = await window.ethereum.request(  
                     { method: "eth_accounts" }                     
                 );      
@@ -253,7 +258,7 @@ const Header = ({scroll}) => {
                 <div className='hidden lg:flex flex-row h-full w-full gap-5 justify-end'>
                     {/* Currency / Wallet */}
                     {
-                        (window.ethereum?.isMetaMask || wallet.accounts.length < 1) &&
+                        (window.ethereum?.isMetaMask && wallet.accounts.length < 1) &&
                         <Button icon={<MdOutlineWallet className='size-7'/>} text={"Login"} onClick={handleConnect} disabled={disableConnect}/>
                     }
                     {wallet.accounts.length > 0 && <Button icon={<MdOutlineWallet className='size-7'/>} text={`${wallet.balance} ETH`} addclass="w-max"/>}
